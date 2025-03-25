@@ -2,7 +2,8 @@ import { WebSocketServer, WebSocket } from "ws";
 import dotenv from "dotenv";
 import mongoose from "mongoose"
 import { v4 as uuidv4 } from "uuid";
-import { roomModel, userModel } from "./db.js";
+import models from "./db.js";
+const { userModel, roomModel } = models
 dotenv.config();
 
 const wss = new WebSocketServer({ port: 8080 });

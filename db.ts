@@ -22,6 +22,11 @@ const roomSchema = new Schema({
     ]
 });
 
-// Check if the models exist before defining them
-export const userModel = mongoose.models.user || mongoose.model("user", userSchema);
-export const roomModel = mongoose.models.room || mongoose.model("room", roomSchema);
+const models = {
+    userModel: mongoose.models.user || mongoose.model("user", userSchema),
+    roomModel: mongoose.models.room || mongoose.model("room", roomSchema),
+
+
+}
+
+export default models
