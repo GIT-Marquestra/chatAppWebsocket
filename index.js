@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,22 +7,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const ws_1 = require("ws");
-const dotenv_1 = __importDefault(require("dotenv"));
-const mongoose_1 = __importDefault(require("mongoose"));
-const uuid_1 = require("uuid");
-const db_js_1 = require("./db.js");
-dotenv_1.default.config();
-const wss = new ws_1.WebSocketServer({ port: 8080 });
+import { WebSocketServer, WebSocket } from "ws";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import { v4 as uuidv4 } from "uuid";
+import models from "./db.js";
+const { userModel, roomModel } = models;
+dotenv.config();
+const wss = new WebSocketServer({ port: 8080 });
 let socketToUsernameMap = new Map();
 const dbConnect = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // @ts-expect-error: do not know what do here
-        yield mongoose_1.default.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+        yield mongoose.connect(process.env.MONGO_URL);
     }
     catch (error) {
         console.error(error);
@@ -41,8 +37,8 @@ try {
             }
             if (type === "startChat") { // as this is a startChat message, the user will send the roomID he wants to join.
                 socketToUsernameMap.set(socket, username);
-                const roomID = clientRoomID || (0, uuid_1.v4)();
-                const foundUsername = yield db_js_1.userModel.findOne({
+                const roomID = clientRoomID || uuidv4();
+                const foundUsername = yield userModel.findOne({
                     username
                 });
                 let currentRooms = []; // for every ws connection we will first initialize this array and then check ki username pehle se hai ki nahi.
@@ -60,7 +56,7 @@ try {
                 }
                 // it will update all the rooms of the already entried users, and if any of them isnt created yet, it will create with the room.
                 usernames.forEach((p) => __awaiter(void 0, void 0, void 0, function* () {
-                    const foundUser = yield db_js_1.userModel.findOne({
+                    const foundUser = yield userModel.findOne({
                         username: p
                     });
                     if (foundUser) {
@@ -72,9 +68,9 @@ try {
                         console.log("Unexpected error, can't find the user in db");
                     }
                 }));
-                const room = yield db_js_1.roomModel.findOne({ roomID });
+                const room = yield roomModel.findOne({ roomID });
                 if (!room) {
-                    yield db_js_1.roomModel.create({
+                    yield roomModel.create({
                         roomID, // this participants array will include the user himself who created the group and the other members whom he clicked on he wanted in his group 
                         participants: [username, ...usernames],
                         messages: []
@@ -121,7 +117,7 @@ try {
             }
             if (type === "chat") { // as soon as the sender sends the message 
                 console.log("Users wants to chat"); // we will need the current user room 
-                const currentUserRoom = yield db_js_1.roomModel.findOne({ roomID: clientRoomID });
+                const currentUserRoom = yield roomModel.findOne({ roomID: clientRoomID });
                 if (!currentUserRoom) {
                     console.log("Room not found");
                     return;
@@ -139,7 +135,7 @@ try {
                 currentUserRoom.participants.forEach((p) => {
                     var _a;
                     const participantSocket = (_a = Array.from(socketToUsernameMap.entries()).find(([_, user]) => user === p)) === null || _a === void 0 ? void 0 : _a[0];
-                    if (participantSocket && participantSocket.readyState === ws_1.WebSocket.OPEN) {
+                    if (participantSocket && participantSocket.readyState === WebSocket.OPEN) {
                         const messagePayload = {
                             type: "chat",
                             payload: {
@@ -170,7 +166,7 @@ try {
                 console.log("Username not found to be deleted");
                 return;
             }
-            const rooms = db_js_1.roomModel.find({ participants: username });
+            const rooms = roomModel.find({ participants: username });
             socketToUsernameMap.delete(socket);
             try {
                 if (rooms) {

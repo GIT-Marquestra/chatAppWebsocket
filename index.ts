@@ -12,7 +12,7 @@ let socketToUsernameMap: Map<WebSocket, string> = new Map();
 const dbConnect = async () => {
     try{
         // @ts-expect-error: do not know what do here
-        await mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+        await mongoose.connect(process.env.MONGO_URL)
 
     } catch(error){
         console.error(error)
