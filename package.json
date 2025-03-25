@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "ts": "^0.2.2",
+    "typescript": "^5.7.2"
+  },
+  "name": "chatwebsocket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "tsc -b && node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
