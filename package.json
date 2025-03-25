@@ -1,40 +1,25 @@
 {
-  "dependencies": {
-    "@types/bcrypt": "^5.0.2",
-    "@types/cors": "^2.8.17",
-    "@types/dotenv": "^6.1.1",
-    "@types/express": "^5.0.0",
-    "@types/jsonwebtoken": "^9.0.7",
-    "@types/mongoose": "^5.11.96",
-    "@types/uuid": "^10.0.0",
-    "@types/ws": "^8.5.13",
-    "bcrypt": "^5.1.1",
-    "cloudinary": "^2.5.1",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "http": "^0.0.1-security",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.9.2",
-    "nodemon": "^3.1.9",
-    "types": "file:../../../../../../../../ws",
-    "typescript": "^5.7.2",
-    "uuid": "^11.0.3",
-    "ws": "^8.18.0",
-    "zod": "^3.24.1"
-  },
-
   "name": "chatwebsocket",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "devDependencies": {},
+  "description": "WebSocket-based chat application",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "tsc -b && node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc && node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "build": "tsc"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "dependencies": {
+    "ws": "^8.18.0",
+    "dotenv": "^16.4.7",
+    "mongoose": "^8.9.2",
+    "uuid": "^11.0.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "@types/node": "^20.9.0",
+    "@types/ws": "^8.5.13",
+    "@types/uuid": "^10.0.0"
+  },
+  "type": "module",
+  "license": "ISC"
 }

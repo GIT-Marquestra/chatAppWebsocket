@@ -1,4 +1,4 @@
-const { Schema, default: mongoose } = require("mongoose");
+import mongoose, { Schema } from "mongoose"
 const userSchema = new Schema({
     username: String,
     email: { type: String, unique: true },

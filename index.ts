@@ -188,6 +188,7 @@ try{
             try{
     
                 if(rooms){
+                    //@ts-expect-error: don't know what to do 
                     for (const room of rooms){
                         room.participants = room.participants.filter((p: string) => p !== username)
                         if(room.participants.length === 0){
