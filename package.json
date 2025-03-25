@@ -2,7 +2,7 @@
   "name": "chatwebsocket",
   "version": "1.0.0",
   "description": "WebSocket-based chat application",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "start": "tsc -b && node index.js",
     "dev": "ts-node src/index.ts",
