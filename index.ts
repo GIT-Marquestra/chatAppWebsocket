@@ -2,7 +2,7 @@ import { WebSocketServer, WebSocket } from "ws";
 import dotenv from "dotenv";
 import mongoose from "mongoose"
 import { v4 as uuidv4 } from "uuid";
-import { roomModel, userModel } from "./db";
+import { roomModel, userModel } from "./db.js";
 dotenv.config();
 
 const wss = new WebSocketServer({ port: 8080 });
@@ -10,7 +10,7 @@ const wss = new WebSocketServer({ port: 8080 });
 let socketToUsernameMap: Map<WebSocket, string> = new Map();
 const dbConnect = async () => {
     try{
-        //@ts-expect-error: do not know what do here
+        // @ts-expect-error: do not know what do here
         await mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 
     } catch(error){
@@ -19,7 +19,7 @@ const dbConnect = async () => {
 }
 
 dbConnect()
-// const currentRooms: string[] = [] // this should'nt be here
+
 try{
     wss.on("connection", (socket) => { 
         socket.on("message", async (message): Promise<void> => {

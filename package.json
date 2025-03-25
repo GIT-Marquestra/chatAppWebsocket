@@ -4,9 +4,9 @@
   "description": "WebSocket-based chat application",
   "main": "dist/index.js",
   "scripts": {
-    "start": "tsc && node dist/index.js",
+    "start": "tsc -b && node ./dist/index.js",
     "dev": "ts-node src/index.ts",
-    "build": "tsc"
+    "build": "tsc -b"
   },
   "dependencies": {
     "ws": "^8.18.0",
