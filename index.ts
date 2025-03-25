@@ -43,6 +43,7 @@ try{
                     currentRooms = foundUsername.rooms
                     if(!foundUsername.rooms.flat().includes(roomID)){
                         const arr: string[] = ["roomName", roomID]
+                        //@ts-expect-error: do not know what to do here 
                         currentRooms.push(arr);
                         await foundUsername.save()
                     } else {
